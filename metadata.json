@@ -1,0 +1,6 @@
+{
+  "name": "سوق الخيرات | متجر البقالة والطلب المباشر عبر واتساب",
+  "description": "تطبيق سوبر ماركت وبقالة متكامل يتيح للعملاء تصفح المنتجات وإرسال الطلبات مباشرة إلى واتساب البائع مع لوحة تحكم سحابية للتاجر.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

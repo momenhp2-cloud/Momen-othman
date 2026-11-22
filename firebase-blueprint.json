@@ -1,0 +1,302 @@
+{
+  "entities": {
+    "StoreSettings": {
+      "title": "StoreSettings",
+      "description": "Public storefront configuration and seller WhatsApp contact settings.",
+      "type": "object",
+      "properties": {
+        "shopName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Display name of the supermarket or shop."
+        },
+        "shopSubtitle": {
+          "type": "string",
+          "maxLength": 180,
+          "description": "Short storefront subtitle shown in the hero section."
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 20,
+          "pattern": "^[0-9]{7,20}$",
+          "description": "Seller WhatsApp number in international digits-only format."
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 12,
+          "description": "Display currency symbol (e.g. ج.م or ر.س)."
+        },
+        "deliveryFee": {
+          "type": "number",
+          "description": "Standard delivery fee amount."
+        },
+        "freeDeliveryMin": {
+          "type": "number",
+          "description": "Order subtotal threshold for free delivery."
+        },
+        "isOpen": {
+          "type": "boolean",
+          "description": "Whether the shop is currently accepting orders."
+        },
+        "workingHours": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "Shop working hours summary."
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Neighborhood or street address of the shop."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update."
+        }
+      },
+      "required": [
+        "shopName",
+        "whatsappNumber",
+        "currency",
+        "deliveryFee",
+        "freeDeliveryMin",
+        "isOpen",
+        "updatedAt"
+      ]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Grocery or supermarket product item in the live catalog.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "Product name in Arabic."
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "vegetables",
+            "dairy",
+            "bakery",
+            "pantry",
+            "drinks",
+            "household"
+          ],
+          "description": "Product category slug."
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "Unit or weight label (e.g. 1 كجم، عبوة)."
+        },
+        "price": {
+          "type": "number",
+          "description": "Unit price."
+        },
+        "imageUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Relative or HTTPS image path for the product."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Short product description."
+        },
+        "inStock": {
+          "type": "boolean",
+          "description": "Whether the item is currently available for ordering."
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether the item is highlighted as a daily fresh pick."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation server timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update server timestamp."
+        }
+      },
+      "required": [
+        "name",
+        "category",
+        "unit",
+        "price",
+        "imageUrl",
+        "inStock",
+        "featured",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer grocery order dispatched to WhatsApp and logged for merchant tracking.",
+      "type": "object",
+      "properties": {
+        "orderCode": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 24,
+          "pattern": "^[A-Z0-9\\-]+$",
+          "description": "Short human-readable order reference code."
+        },
+        "customerName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Customer full name."
+        },
+        "customerPhone": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 24,
+          "pattern": "^[0-9+\\-\\s]{6,24}$",
+          "description": "Customer contact phone number."
+        },
+        "customerAddress": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 220,
+          "description": "Delivery address."
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Optional delivery or item instructions."
+        },
+        "items": {
+          "type": "array",
+          "description": "Bounded list of ordered line items (1 to 50 items)."
+        },
+        "subtotal": {
+          "type": "number",
+          "description": "Items subtotal."
+        },
+        "deliveryFee": {
+          "type": "number",
+          "description": "Applied delivery fee."
+        },
+        "total": {
+          "type": "number",
+          "description": "Final order total."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "new",
+            "preparing",
+            "delivered",
+            "cancelled"
+          ],
+          "description": "Order fulfillment status."
+        },
+        "orderType": {
+          "type": "string",
+          "enum": [
+            "cart",
+            "quick"
+          ],
+          "description": "Whether placed via cart or quick product order."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when order was placed."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last status update."
+        }
+      },
+      "required": [
+        "orderCode",
+        "customerName",
+        "customerPhone",
+        "customerAddress",
+        "items",
+        "subtotal",
+        "deliveryFee",
+        "total",
+        "status",
+        "orderType",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized merchant/seller user record granting dashboard access.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Admin email address."
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "Seller display name."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "owner",
+            "seller"
+          ],
+          "description": "Merchant role."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp."
+        }
+      },
+      "required": [
+        "email",
+        "role",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/storeSettings/{settingId}": {
+      "schema": {
+        "$ref": "#/entities/StoreSettings"
+      },
+      "description": "Stores public storefront details and seller WhatsApp configuration (e.g. settingId = default)."
+    },
+    "/products/{productId}": {
+      "schema": {
+        "$ref": "#/entities/Product"
+      },
+      "description": "Stores live supermarket product catalog items."
+    },
+    "/orders/{orderId}": {
+      "schema": {
+        "$ref": "#/entities/Order"
+      },
+      "description": "Stores customer orders dispatched via WhatsApp (PII protected: admin-only read/update)."
+    },
+    "/admins/{adminId}": {
+      "schema": {
+        "$ref": "#/entities/AdminUser"
+      },
+      "description": "Authorized merchant/seller accounts."
+    }
+  }
+}
